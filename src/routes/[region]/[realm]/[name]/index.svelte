@@ -3,20 +3,26 @@
         const { region, realm, name } = page.params;
 
         const res = await this.fetch(`api/${region}/${realm}/${name}`);
-        const wowCharacter = await res.json();
-        return { wowCharacter };
+        const { character, equipment } = await res.json();
+        return { character, equipment };
     }
 </script>
 
 <script lang="ts">
-    import { Headline } from "attractions";
     import { onMount } from "svelte";
+    import type {
+        Character,
+        CharacterEquipment,
+        Equipment,
+    } from "../../../api/_blizzard/types";
 
-    export let wowCharacter;
-    console.dir(wowCharacter);
+    export let character: Character;
+    export let equipment: CharacterEquipment;
+    console.dir(character);
+    console.dir(equipment);
     $: mainstatName = "Intellect";
-    $: equipment = wowCharacter?.equipment?.equipped_items?.reduce(
-        (itemAcc, itemCurr) => {
+    $: mappedEquipment = equipment.equipped_items.reduce(
+        (itemAcc, itemCurr: Equipment) => {
             itemAcc[itemCurr.slot.type] =
                 itemCurr.stats?.reduce((statsAcc, statsCurr) => {
                     statsAcc[statsCurr.type.type] = statsCurr.value;
@@ -28,30 +34,61 @@
         },
         {}
     );
+    $: classCss = character.character_class.name
+        .toLowerCase()
+        .replace(" ", "-");
     onMount(() => {
-        console.dir(wowCharacter);
+        console.dir(character);
+        console.dir(equipment);
     });
 </script>
 
 <style lang="scss">
+    @import "../../../../theme/class-colors";
+    .death-knight {
+        color: $death-knight;
+    }
+    .demon-hunter {
+        color: $demon-hunter;
+    }
+    .druid {
+        color: $druid;
+    }
+    .hunter {
+        color: $hunter;
+    }
+    .mage {
+        color: $mage;
+    }
+    .monk {
+        color: $monk;
+    }
+    .paladin {
+        color: $paladin;
+    }
+    .priest {
+        color: $priest;
+    }
+    .rogue {
+        color: $rogue;
+    }
+    .shaman {
+        color: $shaman;
+    }
+    .warlock {
+        color: $warlock;
+    }
+    .warrior {
+        color: $warrior;
+    }
 </style>
 
 <svelte:head>
-    <title>
-        {wowCharacter.name}
-        -
-        {wowCharacter.realm}
-        ({wowCharacter.region})
-    </title>
+    <title>{character.name} - {character.realm.name}</title>
 </svelte:head>
 
 <div>
-    <Headline>
-        {wowCharacter.name}
-        -
-        {wowCharacter.realm}
-        ({wowCharacter.region})
-    </Headline>
+    <h1 class={classCss}>{character.name} - {character.realm.name}</h1>
     <table>
         <thead>
             <tr>
@@ -67,17 +104,17 @@
             </tr>
         </thead>
         <tbody>
-            {#each Object.keys(equipment) as slot}
+            {#each Object.keys(mappedEquipment) as slot}
                 <tr>
                     <td>{slot}</td>
-                    <td>{equipment[slot].name}</td>
-                    <td>{equipment[slot].ilvl}</td>
-                    <td>{equipment[slot].INTELLECT || '--'}</td>
-                    <td>{equipment[slot].STAMINA || '--'}</td>
-                    <td>{equipment[slot].CRIT_RATING || '--'}</td>
-                    <td>{equipment[slot].HASTE_RATING || '--'}</td>
-                    <td>{equipment[slot].VERSATILITY_RATING || '--'}</td>
-                    <td>{equipment[slot].MASTERY_RATING || '--'}</td>
+                    <td>{mappedEquipment[slot].name}</td>
+                    <td>{mappedEquipment[slot].ilvl}</td>
+                    <td>{mappedEquipment[slot].INTELLECT || '--'}</td>
+                    <td>{mappedEquipment[slot].STAMINA || '--'}</td>
+                    <td>{mappedEquipment[slot].CRIT_RATING || '--'}</td>
+                    <td>{mappedEquipment[slot].HASTE_RATING || '--'}</td>
+                    <td>{mappedEquipment[slot].VERSATILITY_RATING || '--'}</td>
+                    <td>{mappedEquipment[slot].MASTERY_RATING || '--'}</td>
                 </tr>
             {/each}
         </tbody>
@@ -105,23 +142,35 @@
         </thead>
         <tbody>
             <tr>
-                <td>{equipment.HEAD && equipment.HEAD.ilvl}</td>
-                <td>{equipment.NECK && equipment.NECK.ilvl}</td>
-                <td>{equipment.SHOULDER && equipment.SHOULDER.ilvl}</td>
-                <td>{equipment.BACK && equipment.BACK.ilvl}</td>
-                <td>{equipment.CHEST && equipment.CHEST.ilvl}</td>
-                <td>{equipment.WRIST && equipment.WRIST.ilvl}</td>
-                <td>{equipment.HANDS && equipment.HANDS.ilvl}</td>
-                <td>{equipment.WAIST && equipment.WAIST.ilvl}</td>
-                <td>{equipment.LEGS && equipment.LEGS.ilvl}</td>
-                <td>{equipment.FEET && equipment.FEET.ilvl}</td>
-                <td>{equipment.FINGER_1 && equipment.FINGER_1.ilvl}</td>
-                <td>{equipment.FINGER_2 && equipment.FINGER_2.ilvl}</td>
-                <td>{equipment.TRINKET_1 && equipment.TRINKET_1.ilvl}</td>
-                <td>{equipment.TRINKET_2 && equipment.TRINKET_2.ilvl}</td>
-                <td>{equipment.MAIN_HAND && equipment.MAIN_HAND.ilvl}</td>
+                <td>{mappedEquipment.HEAD && mappedEquipment.HEAD.ilvl}</td>
+                <td>{mappedEquipment.NECK && mappedEquipment.NECK.ilvl}</td>
                 <td>
-                    {(equipment.OFF_HAND && equipment.OFF_HAND.ilvl) || equipment.MAIN_HAND.ilvl}
+                    {mappedEquipment.SHOULDER && mappedEquipment.SHOULDER.ilvl}
+                </td>
+                <td>{mappedEquipment.BACK && mappedEquipment.BACK.ilvl}</td>
+                <td>{mappedEquipment.CHEST && mappedEquipment.CHEST.ilvl}</td>
+                <td>{mappedEquipment.WRIST && mappedEquipment.WRIST.ilvl}</td>
+                <td>{mappedEquipment.HANDS && mappedEquipment.HANDS.ilvl}</td>
+                <td>{mappedEquipment.WAIST && mappedEquipment.WAIST.ilvl}</td>
+                <td>{mappedEquipment.LEGS && mappedEquipment.LEGS.ilvl}</td>
+                <td>{mappedEquipment.FEET && mappedEquipment.FEET.ilvl}</td>
+                <td>
+                    {mappedEquipment.FINGER_1 && mappedEquipment.FINGER_1.ilvl}
+                </td>
+                <td>
+                    {mappedEquipment.FINGER_2 && mappedEquipment.FINGER_2.ilvl}
+                </td>
+                <td>
+                    {mappedEquipment.TRINKET_1 && mappedEquipment.TRINKET_1.ilvl}
+                </td>
+                <td>
+                    {mappedEquipment.TRINKET_2 && mappedEquipment.TRINKET_2.ilvl}
+                </td>
+                <td>
+                    {mappedEquipment.MAIN_HAND && mappedEquipment.MAIN_HAND.ilvl}
+                </td>
+                <td>
+                    {(mappedEquipment.OFF_HAND && mappedEquipment.OFF_HAND.ilvl) || mappedEquipment.MAIN_HAND.ilvl}
                 </td>
             </tr>
         </tbody>

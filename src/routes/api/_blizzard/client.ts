@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 import FormData from 'form-data'
 import { add, isBefore } from 'date-fns'
-import { access } from 'fs'
+import type { Character, CharacterEquipment } from './types'
 
 
 class Client {
@@ -20,6 +20,9 @@ class Client {
     }
 
     async getCredentials(): Promise<void> {
+        if (this.hasValidCredentials()) {
+            return
+        }
         console.info('>> Client.getCredentials()')
         const form = new FormData()
         form.append('grant_type', 'client_credentials')
@@ -37,7 +40,7 @@ class Client {
         console.info('<< Client.getCredentials()')
     }
 
-    async getCharacterEquipment(region: string, realm: string, name: string): Promise<any> {
+    async getCharacterEquipment(region: string, realm: string, name: string): Promise<CharacterEquipment> {
         console.info(`>> Client.getCharacterEquipment(region = ${region}, realm = ${realm}, name = ${name})`)
         if (!this.hasValidCredentials()) {
             await this.getCredentials()
@@ -45,6 +48,17 @@ class Client {
         const response = await this.client.get(`https://${region}.api.blizzard.com/profile/wow/character/${realm}/${name}/equipment`)
         console.debug(`-- received response code ${response.status}`)
         console.info('<< Client.getCharacterEquipment()')
+        return response.data
+    }
+
+    async getCharacter(region: string, realm: string, name: string): Promise<Character> {
+        console.info(`>> Client.getCharacter(region = ${region}, realm = ${realm}, name = ${name})`)
+        if (!this.hasValidCredentials()) {
+            await this.getCredentials()
+        }
+        const response = await this.client.get(`https://${region}.api.blizzard.com/profile/wow/character/${realm}/${name}`)
+        console.debug(`-- received response code ${response.status}`)
+        console.info('<< Client.getCharacter()')
         return response.data
     }
 }
