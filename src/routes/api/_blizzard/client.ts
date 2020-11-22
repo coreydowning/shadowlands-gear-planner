@@ -20,6 +20,7 @@ class Client {
     }
 
     async getCredentials(): Promise<void> {
+        console.info('>> Client.getCredentials()')
         const form = new FormData()
         form.append('grant_type', 'client_credentials')
 
@@ -33,15 +34,22 @@ class Client {
                 locale: 'en_US',
             }
         })
+        console.info('<< Client.getCredentials()')
     }
 
     async getCharacterEquipment(region: string, realm: string, name: string): Promise<any> {
+        console.info(`>> Client.getCharacterEquipment(region = ${region}, realm = ${realm}, name = ${name})`)
         if (!this.hasValidCredentials()) {
             await this.getCredentials()
         }
         const response = await this.client.get(`https://${region}.api.blizzard.com/profile/wow/character/${realm}/${name}/equipment`)
+        console.debug(`-- received response code ${response.status}`)
+        console.info('<< Client.getCharacterEquipment()')
         return response.data
     }
 }
 
-export default Client
+const client = new Client(process.env.BLIZZARD_CLIENT_ID, process.env.BLIZZARD_CLIENT_SECRET)
+
+export { Client }
+export default client

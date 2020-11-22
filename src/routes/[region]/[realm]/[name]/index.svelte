@@ -13,16 +13,15 @@
     import { onMount } from "svelte";
 
     export let wowCharacter;
+    console.dir(wowCharacter);
     $: mainstatName = "Intellect";
-    $: equipment = wowCharacter.equipment.equipped_items.reduce(
+    $: equipment = wowCharacter?.equipment?.equipped_items?.reduce(
         (itemAcc, itemCurr) => {
-            itemAcc[itemCurr.slot.type] = itemCurr.stats.reduce(
-                (statsAcc, statsCurr) => {
+            itemAcc[itemCurr.slot.type] =
+                itemCurr.stats?.reduce((statsAcc, statsCurr) => {
                     statsAcc[statsCurr.type.type] = statsCurr.value;
                     return statsAcc;
-                },
-                {}
-            );
+                }, {}) || {};
             itemAcc[itemCurr.slot.type].name = itemCurr.name;
             itemAcc[itemCurr.slot.type].ilvl = itemCurr.level.value;
             return itemAcc;

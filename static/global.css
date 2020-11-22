@@ -3,3 +3,7 @@ body {
     font-size: 16px;
     color: #ffffff;
 }
+
+.text-field > input {
+    color: #f5f5f5;
+}
