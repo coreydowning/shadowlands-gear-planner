@@ -7,6 +7,7 @@
 
 	.wrapper {
 		background-color: $background;
+		min-height: 100vh;
 	}
 	main {
 		position: relative;
