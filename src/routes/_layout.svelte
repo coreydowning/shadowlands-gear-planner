@@ -1,12 +1,11 @@
 <script lang="ts">
+	export let segment;
 </script>
 
 <style lang="scss">
 	@import "../theme/attractions-theme";
 
 	.wrapper {
-		height: 100vh;
-		width: 100%;
 		background-color: $background;
 	}
 	main {

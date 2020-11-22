@@ -10,5 +10,5 @@
 </svelte:head>
 
 <div>
-	<Button href="/na/tichondrius/yosprey">Yosprey - Tichondrius (NA)</Button>
+	<Button href="/us/tichondrius/yosprey">Yosprey - Tichondrius (NA)</Button>
 </div>

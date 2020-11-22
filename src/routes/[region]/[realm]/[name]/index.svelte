@@ -10,8 +10,29 @@
 
 <script lang="ts">
     import { Headline } from "attractions";
+    import { onMount } from "svelte";
 
     export let wowCharacter;
+    $: mainstatName = "Intellect";
+    $: equipment = wowCharacter.equipment.equipped_items.reduce(
+        (itemAcc, itemCurr) => {
+            itemAcc[itemCurr.slot.type] = itemCurr.stats.reduce(
+                (statsAcc, statsCurr) => {
+                    statsAcc[statsCurr.type.type] = statsCurr.value;
+                    return statsAcc;
+                },
+                {}
+            );
+            itemAcc[itemCurr.slot.type].name = itemCurr.name;
+            itemAcc[itemCurr.slot.type].ilvl = itemCurr.level.value;
+            return itemAcc;
+        },
+        {}
+    );
+
+    onMount(() => {
+        console.dir(wowCharacter);
+    });
 </script>
 
 <style lang="scss">
@@ -34,4 +55,34 @@
         {wowCharacter.realm}
         ({wowCharacter.region})
     </Headline>
+    <table>
+        <thead>
+            <tr>
+                <th>Slot</th>
+                <th>Current Item</th>
+                <th>Current ilvl</th>
+                <th>Current {mainstatName}</th>
+                <th>Current Stamina</th>
+                <th>Current Critical Strike</th>
+                <th>Current Haste</th>
+                <th>Current Versatility</th>
+                <th>Current Mastery</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each Object.keys(equipment) as slot}
+                <tr>
+                    <td>{slot}</td>
+                    <td>{equipment[slot].name}</td>
+                    <td>{equipment[slot].ilvl}</td>
+                    <td>{equipment[slot].INTELLECT || '--'}</td>
+                    <td>{equipment[slot].STAMINA || '--'}</td>
+                    <td>{equipment[slot].CRIT_RATING || '--'}</td>
+                    <td>{equipment[slot].HASTE_RATING || '--'}</td>
+                    <td>{equipment[slot].VERSATILITY_RATING || '--'}</td>
+                    <td>{equipment[slot].MASTERY_RATING || '--'}</td>
+                </tr>
+            {/each}
+        </tbody>
+    </table>
 </div>
