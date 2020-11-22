@@ -59,14 +59,14 @@
         <thead>
             <tr>
                 <th>Slot</th>
-                <th>Current Item</th>
-                <th>Current ilvl</th>
-                <th>Current {mainstatName}</th>
-                <th>Current Stamina</th>
-                <th>Current Critical Strike</th>
-                <th>Current Haste</th>
-                <th>Current Versatility</th>
-                <th>Current Mastery</th>
+                <th>Item</th>
+                <th>ilvl</th>
+                <th>{mainstatName}</th>
+                <th>Stamina</th>
+                <th>Critical Strike</th>
+                <th>Haste</th>
+                <th>Versatility</th>
+                <th>Mastery</th>
             </tr>
         </thead>
         <tbody>
