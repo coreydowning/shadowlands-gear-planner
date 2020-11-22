@@ -92,36 +92,6 @@
     <table>
         <thead>
             <tr>
-                <th>Slot</th>
-                <th>Item</th>
-                <th>ilvl</th>
-                <th>{mainstatName}</th>
-                <th>Stamina</th>
-                <th>Critical Strike</th>
-                <th>Haste</th>
-                <th>Versatility</th>
-                <th>Mastery</th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each Object.keys(mappedEquipment) as slot}
-                <tr>
-                    <td>{slot}</td>
-                    <td>{mappedEquipment[slot].name}</td>
-                    <td>{mappedEquipment[slot].ilvl}</td>
-                    <td>{mappedEquipment[slot].INTELLECT || '--'}</td>
-                    <td>{mappedEquipment[slot].STAMINA || '--'}</td>
-                    <td>{mappedEquipment[slot].CRIT_RATING || '--'}</td>
-                    <td>{mappedEquipment[slot].HASTE_RATING || '--'}</td>
-                    <td>{mappedEquipment[slot].VERSATILITY_RATING || '--'}</td>
-                    <td>{mappedEquipment[slot].MASTERY_RATING || '--'}</td>
-                </tr>
-            {/each}
-        </tbody>
-    </table>
-    <table>
-        <thead>
-            <tr>
                 <th>Head</th>
                 <th>Neck</th>
                 <th>Shoulders</th>
@@ -142,35 +112,53 @@
         </thead>
         <tbody>
             <tr>
-                <td>{mappedEquipment.HEAD && mappedEquipment.HEAD.ilvl}</td>
-                <td>{mappedEquipment.NECK && mappedEquipment.NECK.ilvl}</td>
                 <td>
-                    {mappedEquipment.SHOULDER && mappedEquipment.SHOULDER.ilvl}
-                </td>
-                <td>{mappedEquipment.BACK && mappedEquipment.BACK.ilvl}</td>
-                <td>{mappedEquipment.CHEST && mappedEquipment.CHEST.ilvl}</td>
-                <td>{mappedEquipment.WRIST && mappedEquipment.WRIST.ilvl}</td>
-                <td>{mappedEquipment.HANDS && mappedEquipment.HANDS.ilvl}</td>
-                <td>{mappedEquipment.WAIST && mappedEquipment.WAIST.ilvl}</td>
-                <td>{mappedEquipment.LEGS && mappedEquipment.LEGS.ilvl}</td>
-                <td>{mappedEquipment.FEET && mappedEquipment.FEET.ilvl}</td>
-                <td>
-                    {mappedEquipment.FINGER_1 && mappedEquipment.FINGER_1.ilvl}
+                    {mappedEquipment['HEAD'] && mappedEquipment['HEAD'].ilvl}
                 </td>
                 <td>
-                    {mappedEquipment.FINGER_2 && mappedEquipment.FINGER_2.ilvl}
+                    {mappedEquipment['NECK'] && mappedEquipment['NECK'].ilvl}
                 </td>
                 <td>
-                    {mappedEquipment.TRINKET_1 && mappedEquipment.TRINKET_1.ilvl}
+                    {mappedEquipment['SHOULDER'] && mappedEquipment['SHOULDER'].ilvl}
                 </td>
                 <td>
-                    {mappedEquipment.TRINKET_2 && mappedEquipment.TRINKET_2.ilvl}
+                    {mappedEquipment['BACK'] && mappedEquipment['BACK'].ilvl}
                 </td>
                 <td>
-                    {mappedEquipment.MAIN_HAND && mappedEquipment.MAIN_HAND.ilvl}
+                    {mappedEquipment['CHEST'] && mappedEquipment['CHEST'].ilvl}
                 </td>
                 <td>
-                    {(mappedEquipment.OFF_HAND && mappedEquipment.OFF_HAND.ilvl) || mappedEquipment.MAIN_HAND.ilvl}
+                    {mappedEquipment['WRIST'] && mappedEquipment['WRIST'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['HANDS'] && mappedEquipment['HANDS'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['WAIST'] && mappedEquipment['WAIST'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['LEGS'] && mappedEquipment['LEGS'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['FEET'] && mappedEquipment['FEET'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['FINGER_1'] && mappedEquipment['FINGER_1'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['FINGER_2'] && mappedEquipment['FINGER_2'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['TRINKET_1'] && mappedEquipment['TRINKET_1'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['TRINKET_2'] && mappedEquipment['TRINKET_2'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['MAIN_HAND'] && mappedEquipment['MAIN_HAND'].ilvl}
+                </td>
+                <td>
+                    {mappedEquipment['OFF_HAND'] && mappedEquipment['OFF_HAND'].ilvl}
                 </td>
             </tr>
         </tbody>
